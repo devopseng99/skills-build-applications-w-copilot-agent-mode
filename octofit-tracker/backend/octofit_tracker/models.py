@@ -17,7 +17,7 @@ class Activity(models.Model):
     date = models.DateField()
 
 class Leaderboard(models.Model):
-    user = models.EmailField()
+    user = models.EmailField(unique=True)  # Add unique constraint to the user field
     points = models.IntegerField()
 
 class Workout(models.Model):

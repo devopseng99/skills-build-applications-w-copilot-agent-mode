@@ -25,8 +25,8 @@ SECRET_KEY = "django-insecure-afax*rwl8_(d=lulh(x+x!w&&$oj_lfe_l_ql43bb4ml#0exge
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Allow all hosts
-ALLOWED_HOSTS = ['*']
+# Allow host access to Codespace URL and localhost
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev']
 
 
 # Application definition
