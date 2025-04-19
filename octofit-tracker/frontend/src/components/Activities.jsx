@@ -11,7 +11,7 @@ function Activities() {
   }, []);
 
   return (
-    <div>
+    <div className="container mt-4">
       <h2 className="text-primary">Activities</h2>
       <table className="table table-striped">
         <thead>

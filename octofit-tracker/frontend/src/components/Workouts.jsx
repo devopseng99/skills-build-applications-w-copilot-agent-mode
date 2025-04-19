@@ -11,7 +11,7 @@ function Workouts() {
   }, []);
 
   return (
-    <div>
+    <div className="container mt-4">
       <h2 className="text-primary">Workouts</h2>
       <table className="table table-striped">
         <thead>
