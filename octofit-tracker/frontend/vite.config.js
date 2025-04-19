@@ -7,7 +7,11 @@ export default defineConfig({
     'process.env': {},
   },
   server: {
-    port: 3000,
+    host: '0.0.0.0',
+    port: 5173,
+    watch: {
+      usePolling: true
+    }
   },
   envPrefix: 'VITE_', // Ensure environment variables with 'VITE_' prefix are loaded
 });
