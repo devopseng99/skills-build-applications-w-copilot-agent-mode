@@ -1,6 +1,5 @@
-export const API_CONFIG = {
-    BASE_URL: 'https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev/',
-    VERSION: 'v1'
-};
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 
-export const getApiUrl = (endpoint) => `${API_CONFIG.BASE_URL}api/${API_CONFIG.VERSION}/${endpoint}/`;
+export const getApiUrl = (endpoint) => {
+    return `${BASE_API_URL}${endpoint}/`;
+};
