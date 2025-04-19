@@ -160,9 +160,9 @@ CORS_ALLOW_HEADERS = [
 # CORS settings
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
     "http://localhost:5173",
-    "https://congenial-space-happiness-4pxppj9gg37rr9-3000.app.github.dev",
+    "http://localhost:8000",
+    "https://congenial-space-happiness-4pxppj9gg37rr9-5173.app.github.dev",
     "https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev",
 ]
 
@@ -173,7 +173,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',  # Allow anonymous access
     ],
 }
 
