@@ -15,9 +15,10 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework.routers import DefaultRouter
 from .views import UserViewSet, TeamViewSet, ActivityViewSet, LeaderboardViewSet, WorkoutViewSet, api_root, API_SUB_PATH
+from django.views.generic import RedirectView
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
@@ -27,9 +28,19 @@ router.register(r'activities', ActivityViewSet)
 router.register(r'leaderboard', LeaderboardViewSet)
 router.register(r'workouts', WorkoutViewSet)
 
+# Direct routes for frontend compatibility
+direct_router = DefaultRouter()
+direct_router.register(r'teams', TeamViewSet)
+direct_router.register(r'users', UserViewSet)
+direct_router.register(r'activities', ActivityViewSet)
+direct_router.register(r'leaderboard', LeaderboardViewSet)
+direct_router.register(r'workouts', WorkoutViewSet)
+
 # The API URLs are now determined automatically by the router.
 urlpatterns = [
     path('', api_root, name='api-root'),  # Root endpoint
     path('admin/', admin.site.urls),  # Admin endpoint
     path(API_SUB_PATH, include(router.urls)),  # API endpoints with versioning
+    # Direct routes without version prefix
+    path('', include(direct_router.urls)),  
 ]

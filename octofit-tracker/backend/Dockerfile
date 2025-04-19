@@ -1,11 +1,11 @@
-FROM python:3.12-slim
+FROM python:3.12
 
 WORKDIR /code
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY requirements.txt /code/
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY . /code/
 
 EXPOSE 8000
 

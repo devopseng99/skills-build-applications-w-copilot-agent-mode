@@ -1,24 +1,24 @@
-from djongo import models
+from django.db import models
 
 class User(models.Model):
+    username = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    name = models.CharField(max_length=100)
-    age = models.IntegerField()
-    team = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
 
 class Team(models.Model):
     name = models.CharField(max_length=100)
-    members = models.JSONField()
+    members = models.ManyToManyField(User)
 
 class Activity(models.Model):
-    user = models.EmailField()
-    type = models.CharField(max_length=100)
-    duration = models.IntegerField()
-    date = models.DateField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    activity_type = models.CharField(max_length=100)
+    duration = models.DurationField()
+    timestamp = models.DateTimeField(auto_now_add=True)
 
 class Leaderboard(models.Model):
-    user = models.EmailField(unique=True)  # Add unique constraint to the user field
-    points = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    score = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now=True)
 
 class Workout(models.Model):
     name = models.CharField(max_length=100)
