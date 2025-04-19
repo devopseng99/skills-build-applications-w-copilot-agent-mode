@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 from octofit_tracker.models import User, Team, Activity, Leaderboard, Workout
 from django.conf import settings
 from pymongo import MongoClient
-from datetime import timedelta
+from datetime import timedelta, date
 from bson import ObjectId
 
 # Configure logging
@@ -11,84 +11,57 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
-    help = 'Populate the database with test data for users, teams, activity, leaderboard, and workouts'
+    help = 'Populate the database with test data'
 
     def handle(self, *args, **kwargs):
-        try:
-            # Connect to MongoDB
-            client = MongoClient(settings.DATABASES['default']['HOST'], settings.DATABASES['default']['PORT'])
-            db = client[settings.DATABASES['default']['NAME']]
+        self.stdout.write('Creating test data...')
 
-            # Drop existing collections
-            db.users.drop()
-            logger.info("Dropped users collection.")
-            db.teams.drop()
-            logger.info("Dropped teams collection.")
-            db.activity.drop()
-            logger.info("Dropped activity collection.")
-            db.leaderboard.drop()
-            logger.info("Dropped leaderboard collection.")
-            db.workouts.drop()
-            logger.info("Dropped workouts collection.")
-
-            # Create users
-            users = [
-                User(email='john.doe@example.com', name='John Doe', age=16, team='Team A'),
-                User(email='jane.smith@example.com', name='Jane Smith', age=17, team='Team B')
-            ]
-            User.objects.bulk_create(users)
-            logger.info("Created users.")
-
-            # Create teams
-            teams = [
-                Team(name='Team A', members=['john.doe@example.com']),
-                Team(name='Team B', members=['jane.smith@example.com'])
-            ]
-            Team.objects.bulk_create(teams)
-            logger.info("Created teams.")
-
-            # Create activities
-            activities = [
-                Activity(user='john.doe@example.com', type='Running', duration=30, date='2025-04-12'),
-                Activity(user='jane.smith@example.com', type='Cycling', duration=45, date='2025-04-12')
-            ]
-            Activity.objects.bulk_create(activities)
-            logger.info("Created activities.")
-
-            # Create leaderboard entries
-            leaderboard_entries = [
-                Leaderboard(user='john.doe@example.com', points=100),
-                Leaderboard(user='jane.smith@example.com', points=120)
-            ]
-            Leaderboard.objects.bulk_create(leaderboard_entries)
-            logger.info("Created leaderboard entries.")
-
-            # Create workouts
-            workouts = [
-                Workout(name='Morning Run', description='A quick 5km run to start the day.'),
-                Workout(name='Evening Yoga', description='Relaxing yoga session to wind down.')
-            ]
-            Workout.objects.bulk_create(workouts)
-            logger.info("Created workouts.")
-
-            self.stdout.write(self.style.SUCCESS('Successfully populated the database with test data.'))
-        except Exception as e:
-            logger.error(f"Error populating the database: {e}")
-
-class Command(BaseCommand):
-    help = 'Populate the leaderboard collection with sample data'
-
-    def handle(self, *args, **kwargs):
-        sample_data = [
-            {"user": "john.doe@example.com", "points": 150},
-            {"user": "jane.smith@example.com", "points": 200},
+        # Create users
+        users = [
+            User(email='john.smith@school.edu', name='John Smith', age=16, team='Red Team'),
+            User(email='sarah.wilson@school.edu', name='Sarah Wilson', age=17, team='Blue Team'),
+            User(email='mike.johnson@school.edu', name='Mike Johnson', age=16, team='Red Team'),
+            User(email='emily.brown@school.edu', name='Emily Brown', age=17, team='Blue Team')
         ]
+        User.objects.bulk_create(users)
+        self.stdout.write('Created users')
 
-        for entry in sample_data:
-            try:
-                Leaderboard.objects.update_or_create(user=entry["user"], defaults={"points": entry["points"]})
-                logger.info(f"Successfully added/updated entry: {entry}")
-            except Exception as e:
-                logger.error(f"Error adding/updating entry {entry}: {e}")
+        # Create teams
+        teams = [
+            Team(name='Red Team', members=['john.smith@school.edu', 'mike.johnson@school.edu']),
+            Team(name='Blue Team', members=['sarah.wilson@school.edu', 'emily.brown@school.edu'])
+        ]
+        Team.objects.bulk_create(teams)
+        self.stdout.write('Created teams')
 
-        self.stdout.write(self.style.SUCCESS('Finished populating the leaderboard collection.'))
+        # Create activities
+        activities = [
+            Activity(user='john.smith@school.edu', type='Running', duration=30, date=date.today()),
+            Activity(user='sarah.wilson@school.edu', type='Swimming', duration=45, date=date.today()),
+            Activity(user='mike.johnson@school.edu', type='Basketball', duration=60, date=date.today()),
+            Activity(user='emily.brown@school.edu', type='Volleyball', duration=40, date=date.today())
+        ]
+        Activity.objects.bulk_create(activities)
+        self.stdout.write('Created activities')
+
+        # Create leaderboard entries
+        leaderboard_entries = [
+            Leaderboard(user='john.smith@school.edu', points=120),
+            Leaderboard(user='sarah.wilson@school.edu', points=150),
+            Leaderboard(user='mike.johnson@school.edu', points=100),
+            Leaderboard(user='emily.brown@school.edu', points=130)
+        ]
+        Leaderboard.objects.bulk_create(leaderboard_entries)
+        self.stdout.write('Created leaderboard entries')
+
+        # Create workouts
+        workouts = [
+            Workout(name='Morning Cardio', description='30-minute cardio workout including running and jumping jacks'),
+            Workout(name='Swim Training', description='45-minute swimming session focusing on freestyle and backstroke'),
+            Workout(name='Basketball Drills', description='1-hour basketball practice with shooting and dribbling drills'),
+            Workout(name='Volleyball Practice', description='40-minute volleyball session working on serves and spikes')
+        ]
+        Workout.objects.bulk_create(workouts)
+        self.stdout.write('Created workouts')
+
+        self.stdout.write(self.style.SUCCESS('Successfully populated database with test data'))

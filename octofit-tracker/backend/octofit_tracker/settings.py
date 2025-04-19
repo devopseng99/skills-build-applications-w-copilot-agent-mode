@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from urllib.parse import urlparse
 
 # Load environment variables from .env file
 load_dotenv()
@@ -28,10 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-afax*rwl8_(d=lulh(x+x!w&&$oj_lfe_l_ql43bb4ml#0exge"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-# Allow host access to Codespace URL and localhost
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 
 # Application definition
@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "djongo",
     "corsheaders",
     "octofit_tracker",
 ]
@@ -86,8 +85,12 @@ WSGI_APPLICATION = "octofit_tracker.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB', 'octofit_db'),
+        'USER': os.getenv('POSTGRES_USER', 'octofit_user'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'octofit_password'),
+        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
     }
 }
 
@@ -181,23 +184,7 @@ LOGGING = {
 }
 
 # Base API URL for backend
-#BASE_API_URL = os.getenv('BASE_API_URL', 'http://127.0.0.1:8000/api/v1/')
-#BASE_API_URL = os.getenv('BASE_API_URL', 'http://127.0.0.1:8000/api/v1/')
 BASE_API_URL = os.getenv('BASE_API_URL', 'https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev/api/v1/')
-#BASE_API_URL = os.getenv('BASE_API_URL', 'http://localhost:8000/api/v1/')
-
 
 # Ensure APPEND_SLASH is enabled to handle missing trailing slashes in URLs
 APPEND_SLASH = True
-
-# Set the BASE_API_URL as an environment variable
-# os.environ['BASE_API_URL'] = BASE_API_URL
-# # Set the BASE_URL for the frontend
-# BASE_URL = os.getenv('BASE_URL', 'http://localhost:3000/')
-# # Set the BASE_URL as an environment variable
-# os.environ['BASE_URL'] = BASE_URL
-# # Set the BASE_URL for the frontend
-# # Set the BASE_URL as an environment variable
-# os.environ['BASE_URL'] = BASE_URL
-# # Set the BASE_URL for the frontend
-# # Set the BASE_URL as an environment variable
