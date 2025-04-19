@@ -1,32 +1,29 @@
 import React, { useEffect, useState } from 'react';
+import './Teams.css';
 
 function Teams() {
   const [teams, setTeams] = useState([]);
 
   useEffect(() => {
-    fetch('https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev/api/teams/')
+    fetch(`${window.BASE_API_URL}teams/`)
       .then(response => response.json())
       .then(data => setTeams(data))
       .catch(error => console.error('Error fetching teams:', error));
   }, []);
 
   return (
-    <div className="container mt-4">
-      <h2 className="text-primary">Teams</h2>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teams.map(team => (
-            <tr key={team.id}>
-              <td>{team.name}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="teams-container">
+      <header className="teams-header">
+        <h1>Teams</h1>
+        <p>Discover and join teams in OctoFit Tracker!</p>
+      </header>
+      <div className="teams-grid">
+        {teams.map((team) => (
+          <div className="team-card" key={team.id}>
+            <h3 className="team-name">{team.name}</h3>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

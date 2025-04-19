@@ -1,34 +1,30 @@
 import React, { useEffect, useState } from 'react';
+import './Activities.css';
 
 function Activities() {
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
-    fetch('https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev/api/activity/')
+    fetch(`${window.BASE_API_URL}activity/`)
       .then(response => response.json())
       .then(data => setActivities(data))
       .catch(error => console.error('Error fetching activities:', error));
   }, []);
 
   return (
-    <div className="container mt-4">
-      <h2 className="text-primary">Activities</h2>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Duration (minutes)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {activities.map(activity => (
-            <tr key={activity.id}>
-              <td>{activity.type}</td>
-              <td>{activity.duration}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="activities-container">
+      <header className="activities-header">
+        <h1>Activities</h1>
+        <p>Track and explore all activities logged in OctoFit Tracker!</p>
+      </header>
+      <div className="activities-grid">
+        {activities.map((activity) => (
+          <div className="activity-card" key={activity.id}>
+            <h3 className="activity-type">{activity.type}</h3>
+            <p className="activity-duration">{activity.duration} minutes</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

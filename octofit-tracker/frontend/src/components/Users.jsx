@@ -1,34 +1,30 @@
 import React, { useEffect, useState } from 'react';
+import './Users.css';
 
 function Users() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch('https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev/api/users/')
+    fetch(`${window.BASE_API_URL}users/`)
       .then(response => response.json())
       .then(data => setUsers(data))
       .catch(error => console.error('Error fetching users:', error));
   }, []);
 
   return (
-    <div className="container mt-4">
-      <h2 className="text-primary">Users</h2>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="users-container">
+      <header className="users-header">
+        <h1>Users</h1>
+        <p>Explore the list of registered users in OctoFit Tracker!</p>
+      </header>
+      <div className="users-grid">
+        {users.map((user) => (
+          <div className="user-card" key={user.id}>
+            <h3 className="user-name">{user.name}</h3>
+            <p className="user-email">{user.email}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

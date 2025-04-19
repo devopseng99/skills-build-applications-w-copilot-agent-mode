@@ -1,34 +1,30 @@
 import React, { useEffect, useState } from 'react';
+import './Workouts.css';
 
 function Workouts() {
   const [workouts, setWorkouts] = useState([]);
 
   useEffect(() => {
-    fetch('https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev/api/workouts/')
+    fetch(`${window.BASE_API_URL}workouts/`)
       .then(response => response.json())
       .then(data => setWorkouts(data))
       .catch(error => console.error('Error fetching workouts:', error));
   }, []);
 
   return (
-    <div className="container mt-4">
-      <h2 className="text-primary">Workouts</h2>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {workouts.map(workout => (
-            <tr key={workout.id}>
-              <td>{workout.name}</td>
-              <td>{workout.description}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="workouts-container">
+      <header className="workouts-header">
+        <h1>Workouts</h1>
+        <p>Explore a variety of workouts tailored for you!</p>
+      </header>
+      <div className="workouts-grid">
+        {workouts.map((workout) => (
+          <div className="workout-card" key={workout.id}>
+            <h3 className="workout-title">{workout.name}</h3>
+            <p className="workout-description">{workout.description}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

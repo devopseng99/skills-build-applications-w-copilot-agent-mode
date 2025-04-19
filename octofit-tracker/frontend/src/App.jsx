@@ -10,8 +10,15 @@ import './App.css';
 function App() {
   return (
     <Router>
-      <div className="container">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className="app-container">
+        <header className="hero-section">
+          <div className="hero-content">
+            <h1>Welcome to OctoFit Tracker</h1>
+            <p>Your ultimate fitness companion for tracking activities, joining teams, and competing on leaderboards.</p>
+            <Link to="/activities" className="btn btn-primary btn-lg">Get Started</Link>
+          </div>
+        </header>
+        <nav className="navbar navbar-expand-lg navbar-dark">
           <div className="container-fluid">
             <Link className="navbar-brand" to="/">OctoFit Tracker</Link>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,14 +45,13 @@ function App() {
             </div>
           </div>
         </nav>
-        <div className="mt-4">
+        <div className="content-container mt-4">
           <Routes>
             <Route path="/activities" element={<Activities />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/users" element={<Users />} />
             <Route path="/workouts" element={<Workouts />} />
-            <Route path="/" element={<h1>Welcome to OctoFit Tracker</h1>} />
           </Routes>
         </div>
       </div>

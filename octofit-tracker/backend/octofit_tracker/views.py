@@ -3,10 +3,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import User, Team, Activity, Leaderboard, Workout
 from .serializers import UserSerializer, TeamSerializer, ActivitySerializer, LeaderboardSerializer, WorkoutSerializer
+import os
 
 @api_view(['GET'])
 def api_root(request, format=None):
-    base_url = 'https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev/'
+    base_url = os.getenv('BASE_URL', 'http://localhost:8000/')
     return Response({
         'users': base_url + 'api/users/',
         'teams': base_url + 'api/teams/',

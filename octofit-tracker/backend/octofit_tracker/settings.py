@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -146,3 +151,55 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+# Base API URL for backend
+#BASE_API_URL = os.getenv('BASE_API_URL', 'http://127.0.0.1:8000/api/v1/')
+#BASE_API_URL = os.getenv('BASE_API_URL', 'http://127.0.0.1:8000/api/v1/')
+BASE_API_URL = os.getenv('BASE_API_URL', 'https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev/api/v1/')
+#BASE_API_URL = os.getenv('BASE_API_URL', 'http://localhost:8000/api/v1/')
+
+
+# Ensure APPEND_SLASH is enabled to handle missing trailing slashes in URLs
+APPEND_SLASH = True
+
+# Set the BASE_API_URL as an environment variable
+# os.environ['BASE_API_URL'] = BASE_API_URL
+# # Set the BASE_URL for the frontend
+# BASE_URL = os.getenv('BASE_URL', 'http://localhost:3000/')
+# # Set the BASE_URL as an environment variable
+# os.environ['BASE_URL'] = BASE_URL
+# # Set the BASE_URL for the frontend
+# # Set the BASE_URL as an environment variable
+# os.environ['BASE_URL'] = BASE_URL
+# # Set the BASE_URL for the frontend
+# # Set the BASE_URL as an environment variable
