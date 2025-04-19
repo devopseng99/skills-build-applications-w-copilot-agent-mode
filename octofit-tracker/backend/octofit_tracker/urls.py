@@ -40,7 +40,8 @@ direct_router.register(r'workouts', WorkoutViewSet)
 urlpatterns = [
     path('', api_root, name='api-root'),  # Root endpoint
     path('admin/', admin.site.urls),  # Admin endpoint
-    path(API_SUB_PATH, include(router.urls)),  # API endpoints with versioning
+    # API endpoints with versioning - ensure proper path handling
+    path(f'{API_SUB_PATH.strip("/")}/', include(router.urls)),
     # Direct routes without version prefix
-    path('', include(direct_router.urls)),  
+    path('', include(direct_router.urls)),
 ]

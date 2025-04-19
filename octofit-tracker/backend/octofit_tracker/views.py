@@ -8,14 +8,15 @@ import os
 
 # API version configuration
 API_VERSION = os.getenv('API_VERSION', 'v1')
-API_SUB_PATH = f'api/{API_VERSION}/'
+API_SUB_PATH = f'api/{API_VERSION}/'  # Ensure trailing slash
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def api_root(request, format=None):
     # Use request.build_absolute_uri to get the correct base URL
     def build_url(path):
-        return request.build_absolute_uri(f'/{API_SUB_PATH}{path}/')
+        # Remove any extra slashes and ensure one slash between segments
+        return request.build_absolute_uri(f'/{API_SUB_PATH.strip("/")}/{path.strip("/")}/')
         
     return Response({
         'message': 'Welcome to OctoFit Tracker API',
