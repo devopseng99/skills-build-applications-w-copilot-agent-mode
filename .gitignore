@@ -31,3 +31,6 @@ yarn-error.log*
 # Python files
 *.pyc
 __pycache__/
+.vscode/settings.json
+.vscode/mcp.json
+data
