@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getApiUrl } from '../config/api';
 import './Users.css';
 
 function Users() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`${window.BASE_API_URL}users/`)
+    fetch(getApiUrl('users'))
       .then(response => response.json())
       .then(data => setUsers(data))
       .catch(error => console.error('Error fetching users:', error));
@@ -13,15 +14,12 @@ function Users() {
 
   return (
     <div className="users-container">
-      <header className="users-header">
-        <h1>Users</h1>
-        <p>Explore the list of registered users in OctoFit Tracker!</p>
-      </header>
+      <h2>Users</h2>
       <div className="users-grid">
-        {users.map((user) => (
-          <div className="user-card" key={user.id}>
-            <h3 className="user-name">{user.name}</h3>
-            <p className="user-email">{user.email}</p>
+        {users.map(user => (
+          <div key={user._id} className="user-card">
+            <h3>{user.username}</h3>
+            <p>Email: {user.email}</p>
           </div>
         ))}
       </div>

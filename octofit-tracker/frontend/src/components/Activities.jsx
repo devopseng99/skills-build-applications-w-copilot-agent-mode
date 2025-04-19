@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getApiUrl } from '../config/api';
 import './Activities.css';
 
 function Activities() {
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
-    fetch(`${window.BASE_API_URL}activity/`)
+    fetch(getApiUrl('activities'))
       .then(response => response.json())
       .then(data => setActivities(data))
       .catch(error => console.error('Error fetching activities:', error));
@@ -13,15 +14,13 @@ function Activities() {
 
   return (
     <div className="activities-container">
-      <header className="activities-header">
-        <h1>Activities</h1>
-        <p>Track and explore all activities logged in OctoFit Tracker!</p>
-      </header>
+      <h2>Activities</h2>
       <div className="activities-grid">
-        {activities.map((activity) => (
-          <div className="activity-card" key={activity.id}>
-            <h3 className="activity-type">{activity.type}</h3>
-            <p className="activity-duration">{activity.duration} minutes</p>
+        {activities.map(activity => (
+          <div key={activity._id} className="activity-card">
+            <h3>{activity.activity_type}</h3>
+            <p>Duration: {activity.duration}</p>
+            <p>User: {activity.user}</p>
           </div>
         ))}
       </div>

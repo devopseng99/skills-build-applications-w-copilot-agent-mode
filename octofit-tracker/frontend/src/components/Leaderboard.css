@@ -1,7 +1,6 @@
 .leaderboard-container {
-  padding: 2rem;
-  background: linear-gradient(135deg, #43cea2, #185a9d);
-  color: #fff;
+  padding: 20px;
+  background: linear-gradient(135deg, #84fab0, #8fd3f4);
   min-height: 100vh;
 }
 
@@ -49,4 +48,35 @@
 .leaderboard-points {
   font-size: 1rem;
   line-height: 1.5;
+}
+
+.leaderboard-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.leaderboard-table th {
+  background: #2b2834;
+  color: white;
+  font-weight: bold;
+}
+
+.leaderboard-table tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.leaderboard-table tr:hover {
+  background: #f1f3f5;
 }

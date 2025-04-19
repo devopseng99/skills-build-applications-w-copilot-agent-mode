@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getApiUrl } from '../config/api';
 import './Leaderboard.css';
 
 function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
 
   useEffect(() => {
-    fetch(`${window.BASE_API_URL}leaderboard/`)
+    fetch(getApiUrl('leaderboard'))
       .then(response => response.json())
       .then(data => setLeaderboard(data))
       .catch(error => console.error('Error fetching leaderboard:', error));
@@ -13,18 +14,25 @@ function Leaderboard() {
 
   return (
     <div className="leaderboard-container">
-      <header className="leaderboard-header">
-        <h1>Leaderboard</h1>
-        <p>See how you rank among other users in OctoFit Tracker!</p>
-      </header>
-      <div className="leaderboard-grid">
-        {leaderboard.map((entry) => (
-          <div className="leaderboard-card" key={entry.id}>
-            <h3 className="leaderboard-user">{entry.user}</h3>
-            <p className="leaderboard-points">{entry.points} points</p>
-          </div>
-        ))}
-      </div>
+      <h2>Leaderboard</h2>
+      <table className="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>User</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leaderboard.map((entry, index) => (
+            <tr key={entry._id}>
+              <td>{index + 1}</td>
+              <td>{entry.user}</td>
+              <td>{entry.score}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

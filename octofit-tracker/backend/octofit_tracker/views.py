@@ -11,13 +11,16 @@ API_SUB_PATH = f'api/{API_VERSION}/'
 
 @api_view(['GET'])
 def api_root(request, format=None):
-    base_url = os.getenv('BASE_URL', 'http://localhost:8000/')
+    base_url = 'https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev/'
     return Response({
-        'users': base_url + API_SUB_PATH + 'users/',
-        'teams': base_url + API_SUB_PATH + 'teams/',
-        'activities': base_url + API_SUB_PATH + 'activities/',
-        'leaderboard': base_url + API_SUB_PATH + 'leaderboard/',
-        'workouts': base_url + API_SUB_PATH + 'workouts/'
+        'message': 'Welcome to OctoFit Tracker API',
+        'endpoints': {
+            'users': base_url + API_SUB_PATH + 'users/',
+            'teams': base_url + API_SUB_PATH + 'teams/',
+            'activities': base_url + API_SUB_PATH + 'activities/',
+            'leaderboard': base_url + API_SUB_PATH + 'leaderboard/',
+            'workouts': base_url + API_SUB_PATH + 'workouts/'
+        }
     })
 
 class UserViewSet(viewsets.ModelViewSet):

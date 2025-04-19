@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getApiUrl } from '../config/api';
 import './Workouts.css';
 
 function Workouts() {
   const [workouts, setWorkouts] = useState([]);
 
   useEffect(() => {
-    fetch(`${window.BASE_API_URL}workouts/`)
+    fetch(getApiUrl('workouts'))
       .then(response => response.json())
       .then(data => setWorkouts(data))
       .catch(error => console.error('Error fetching workouts:', error));
@@ -13,15 +14,12 @@ function Workouts() {
 
   return (
     <div className="workouts-container">
-      <header className="workouts-header">
-        <h1>Workouts</h1>
-        <p>Explore a variety of workouts tailored for you!</p>
-      </header>
+      <h2>Workouts</h2>
       <div className="workouts-grid">
-        {workouts.map((workout) => (
-          <div className="workout-card" key={workout.id}>
-            <h3 className="workout-title">{workout.name}</h3>
-            <p className="workout-description">{workout.description}</p>
+        {workouts.map(workout => (
+          <div key={workout._id} className="workout-card">
+            <h3>{workout.name}</h3>
+            <p>{workout.description}</p>
           </div>
         ))}
       </div>
