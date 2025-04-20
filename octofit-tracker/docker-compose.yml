@@ -25,6 +25,8 @@ services:
         echo 'Setting up database schema...' &&
         python manage.py migrate --noinput &&
         python manage.py collectstatic --noinput &&
+        echo 'Creating admin user...' &&
+        echo \"from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin') if not User.objects.filter(username='admin').exists() else None\" | python manage.py shell &&
         python manage.py runserver 0.0.0.0:8000
       "
     volumes:
@@ -41,6 +43,7 @@ services:
       - DJANGO_SETTINGS_MODULE=octofit_tracker.settings
       - DEBUG=1
       - STATIC_ROOT=/code/staticfiles
+      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,[::1],web,congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev
     depends_on:
       - db
 
@@ -55,6 +58,20 @@ services:
       - VITE_BASE_API_URL=https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev/api/v1
     depends_on:
       - web
+
+  data_loader:
+    build:
+      context: ./data-loader
+      dockerfile: Dockerfile
+    environment:
+      - API_URL=https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev/api/v1
+      - ADMIN_USERNAME=admin2
+      - ADMIN_PASSWORD=admin
+      - MAX_RETRIES=30
+      - RETRY_DELAY=2
+    depends_on:
+      - web
+      - db
 
 volumes:
   postgres_data:
