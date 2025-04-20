@@ -80,8 +80,8 @@ jobs:
            }'
 
           # Check for codespace Django REST API endpoint suffix in Activities.js
-          file="octofit-tracker/frontend/src/components/Activities.js"
-          keyphrase='fetch\(getApiUrl\)'
+          file="octofit-tracker/frontend/src/components/Activities.jsx"
+          keyphrase='fetch(getApiUrl'
           minimum_occurences=1
           found_occurences=$(grep -o "$keyphrase" "$file" | wc -l)
           if [ "$found_occurences" -lt "$minimum_occurences" ]; then
@@ -90,8 +90,8 @@ jobs:
           fi
 
           # Check for codespace Django REST API endpoint suffix in Leaderboard.js
-          file="octofit-tracker/frontend/src/components/Leaderboard.js"
-          keyphrase='fetch\(getApiUrl\)'
+          file="octofit-tracker/frontend/src/components/Leaderboard.jsx"
+          keyphrase='fetch\(getApiUrl'
           minimum_occurences=1
           found_occurences=$(grep -o "$keyphrase" "$file" | wc -l)
           if [ "$found_occurences" -lt "$minimum_occurences" ]; then
@@ -100,8 +100,8 @@ jobs:
           fi
 
           # Check for codespace Django REST API endpoint suffix in Teams.js
-          file="octofit-tracker/frontend/src/components/Teams.js"
-          keyphrase='fetch\(getApiUrl\)'
+          file="octofit-tracker/frontend/src/components/Teams.jsx"
+          keyphrase='fetch(getApiUrl'
           minimum_occurences=1
           found_occurences=$(grep -o "$keyphrase" "$file" | wc -l)
           if [ "$found_occurences" -lt "$minimum_occurences" ]; then
@@ -110,8 +110,8 @@ jobs:
           fi
 
           # Check for codespace Django REST API endpoint suffix in Users.js
-          file="octofit-tracker/frontend/src/components/Users.js"
-          keyphrase='fetch\(getApiUrl\)'
+          file="octofit-tracker/frontend/src/components/Users.jsx"
+          keyphrase='fetch(getApiUrl'
           minimum_occurences=1
           found_occurences=$(grep -o "$keyphrase" "$file" | wc -l)
           if [ "$found_occurences" -lt "$minimum_occurences" ]; then
@@ -120,8 +120,8 @@ jobs:
           fi
 
           # Check for codespace Django REST API endpoint suffix in Workouts.js
-          file="octofit-tracker/frontend/src/components/Workouts.js"
-          keyphrase='fetch\(getApiUrl\)'
+          file="octofit-tracker/frontend/src/components/Workouts.jsx"
+          keyphrase='fetch(getApiUrl'
           minimum_occurences=1
           found_occurences=$(grep -o "$keyphrase" "$file" | wc -l)
           if [ "$found_occurences" -lt "$minimum_occurences" ]; then
