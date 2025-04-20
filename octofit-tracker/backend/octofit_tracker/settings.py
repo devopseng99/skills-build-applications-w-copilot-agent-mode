@@ -26,16 +26,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-afax*rwl8_(d=lulh(x+x!w&&$oj_lfe_l_ql43bb4ml#0exge"
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key-for-development')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+debug_value = os.environ.get('DEBUG', '1')
+DEBUG = debug_value.lower() == 'true' if isinstance(debug_value, str) and debug_value.lower() in ['true', 'false'] else bool(int(debug_value))
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '.app.github.dev',  # Allow all GitHub Codespaces domains
-]
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,[::1]').split(',')
 
 
 # Application definition
@@ -54,8 +51,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "corsheaders.middleware.CorsMiddleware",  # Move CORS middleware before CommonMiddleware
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -90,11 +87,11 @@ WSGI_APPLICATION = "octofit_tracker.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'octofit_db',
-        'USER': 'octofit_user',
-        'PASSWORD': 'octofit_password',
-        'HOST': 'db',  # service name from docker-compose
-        'PORT': '5432',
+        'NAME': os.environ.get('POSTGRES_DB', 'octofit_db'),
+        'USER': os.environ.get('POSTGRES_USER', 'octofit_user'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'octofit_password'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'db'),
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }
 
@@ -134,6 +131,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.environ.get('STATIC_ROOT', os.path.join(BASE_DIR, 'staticfiles'))
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -141,29 +139,12 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Allow all origins for CORS
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_METHODS = [
-    'GET',
-    'POST',
-    'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS',
-]
-CORS_ALLOW_HEADERS = [
-    'content-type',
-    'authorization',
-    'x-csrftoken',
-    'x-requested-with',
-]
-
-# CORS settings
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True  # Only for development
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://localhost:8000",
-    "https://congenial-space-happiness-4pxppj9gg37rr9-5173.app.github.dev",
-    "https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev",
+    "http://localhost:5173",  # Vite default port
+    "http://127.0.0.1:5173",
+    "http://frontend:5173",   # Container name with Vite port
+    "https://congenial-space-happiness-4pxppj9gg37rr9-5173.app.github.dev"  # GitHub workspace frontend
 ]
 
 # REST Framework settings
@@ -176,45 +157,3 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',  # Allow anonymous access
     ],
 }
-
-# Session settings
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-SESSION_COOKIE_SECURE = False  # Set to True in production
-SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SAMESITE = 'Lax'
-
-# Logging configuration
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
-
-# Base API URL for backend
-BASE_API_URL = os.getenv('BASE_API_URL', 'https://congenial-space-happiness-4pxppj9gg37rr9-8000.app.github.dev/api/v1/')
-
-# Ensure APPEND_SLASH is enabled to handle missing trailing slashes in URLs
-APPEND_SLASH = True

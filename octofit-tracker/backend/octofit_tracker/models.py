@@ -10,13 +10,13 @@ class Team(models.Model):
     members = models.ManyToManyField(User)
 
 class Activity(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user')
     activity_type = models.CharField(max_length=100)
     duration = models.DurationField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
 class Leaderboard(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user')
     score = models.IntegerField()
     timestamp = models.DateTimeField(auto_now=True)
 
