@@ -5,6 +5,8 @@
 
 _Build an application with GitHub Copilot agent mode in less than an hour._
 
+lets do it
+
 ## Welcome
 
 People love how GitHub Copilot helps them write code faster and with fewer errors.
